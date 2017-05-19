@@ -1,0 +1,10 @@
+= Jwt go
+
+Simple program to validate a jwt using github.com/dgrijalva/jwt-go
+
+== Compile and run
+
+-----
+go get -u github.com/dgrijalva/jwt-go
+go run jwt.go
+-----
