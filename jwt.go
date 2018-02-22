@@ -19,6 +19,7 @@ func main() {
       ExpiresAt: 2221039552,//year 2040
 //       ExpiresAt: 1500, //Expired
       Issuer:    "test",
+      Subject:    "bob",
    }
 
    rsaPrivateKey := test.LoadRSAPrivateKeyFromDisk("resources/sample_key")
@@ -29,8 +30,8 @@ func main() {
        return rsaPublicKey, nil
    })
 
-   if token.Valid {
-       fmt.Println("----> GOOD TOKEN!")
+   if claims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
+      fmt.Printf("----> GOOD TOKEN! for %s", claims["sub"])
    } else {
       fmt.Println("Errror", err)
    }
