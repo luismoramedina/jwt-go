@@ -23,7 +23,7 @@ func main() {
    }
 
    rsaPrivateKey := test.LoadRSAPrivateKeyFromDisk("resources/sample_key")
-   var tokenString = test.MakeSampleToken(claims, rsaPrivateKey)
+   var tokenString = MakeSampleToken(claims, rsaPrivateKey)
    fmt.Printf("The token ------> %+v\n", tokenString)
 
    token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
@@ -35,4 +35,16 @@ func main() {
    } else {
       fmt.Println("Errror", err)
    }
+}
+
+func MakeSampleToken(c jwt.Claims, key interface{}) string {
+	token := jwt.NewWithClaims(jwt.SigningMethodRS256, c)
+	token.Header["kid"] = "istio-kid"
+	s, e := token.SignedString(key)
+
+	if e != nil {
+		panic(e.Error())
+	}
+
+	return s
 }
